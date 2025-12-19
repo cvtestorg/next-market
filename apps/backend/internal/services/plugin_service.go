@@ -96,7 +96,7 @@ func (s *PluginService) UploadPlugin(ctx context.Context, reader io.Reader, file
 	}
 
 	// 7. 获取配置 Schema
-	configSchema, err := parsed.GetConfigSchemaJSON()
+	configSchemaBytes, err := parsed.GetConfigSchemaBytes()
 	if err != nil {
 		return nil, fmt.Errorf("failed to get config schema: %w", err)
 	}
@@ -107,7 +107,7 @@ func (s *PluginService) UploadPlugin(ctx context.Context, reader io.Reader, file
 		PluginID:         plugin.ID,
 		Version:          parsed.PackageJSON.Version,
 		ReadmeContent:    parsed.ReadmeContent,
-		ConfigSchemaJSON: configSchema,
+		ConfigSchemaJSON: configSchemaBytes,
 		DownloadURL:      downloadURL,
 		FileSize:         int64(len(fileData)),
 		Channel:          "stable",

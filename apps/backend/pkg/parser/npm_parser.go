@@ -121,6 +121,20 @@ func (p *ParsedPackage) GetConfigSchemaJSON() (string, error) {
 	return string(data), nil
 }
 
+// GetConfigSchemaBytes 获取配置 Schema 的字节数组（用于 JSONB）
+func (p *ParsedPackage) GetConfigSchemaBytes() ([]byte, error) {
+	if p.PackageJSON.NextMarketConfig == nil {
+		return []byte("{}"), nil
+	}
+	
+	data, err := json.Marshal(p.PackageJSON.NextMarketConfig)
+	if err != nil {
+		return nil, fmt.Errorf("failed to marshal config schema: %w", err)
+	}
+	
+	return data, nil
+}
+
 // GetKeywords 获取关键词字符串（逗号分隔）
 func (p *ParsedPackage) GetKeywords() string {
 	return strings.Join(p.PackageJSON.Keywords, ",")

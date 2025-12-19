@@ -65,12 +65,12 @@ type PluginVersion struct {
 	Plugin           *Plugin        `gorm:"foreignKey:PluginID" json:"plugin,omitempty"`
 	Version          string         `gorm:"not null" json:"version"`
 	ReadmeContent    string         `gorm:"type:text" json:"readme_content"`
-	ConfigSchemaJSON string         `gorm:"type:jsonb" json:"config_schema_json"`
+	ConfigSchemaJSON []byte         `gorm:"type:jsonb" json:"config_schema_json"`
 	DownloadURL      string         `json:"download_url"`
 	FileSize         int64          `json:"file_size"`
 	Channel          string         `gorm:"default:'stable'" json:"channel"` // stable, beta
 	DownloadCount    int64          `gorm:"default:0" json:"download_count"`
-	SecurityScanResult string       `gorm:"type:jsonb" json:"security_scan_result,omitempty"`
+	SecurityScanResult []byte       `gorm:"type:jsonb" json:"security_scan_result,omitempty"`
 }
 
 // Organization 组织模型
@@ -80,8 +80,7 @@ type Organization struct {
 	UpdatedAt  time.Time      `json:"updated_at"`
 	DeletedAt  gorm.DeletedAt `gorm:"index" json:"-"`
 	Name       string         `gorm:"uniqueIndex;not null" json:"name"`
-	OpenFGAID  string         `gorm:"uniqueIndex" json:"openfga_id"`
-	Members    []User         `gorm:"many2many:organization_members;" json:"members,omitempty"`
+	OpenFGAID  string         `gorm:"uniqueIndex" json:"open_fga_id"`
 }
 
 // User 用户模型
@@ -93,7 +92,7 @@ type User struct {
 	Email     string         `gorm:"uniqueIndex;not null" json:"email"`
 	Name      string         `json:"name"`
 	Avatar    string         `json:"avatar"`
-	OpenFGAID string         `gorm:"uniqueIndex" json:"openfga_id"`
+	OpenFGAID string         `gorm:"uniqueIndex" json:"open_fga_id"`
 	Verified  bool           `gorm:"default:false" json:"verified"`
 }
 
@@ -128,22 +127,22 @@ type PluginAuthorization struct {
 
 // AuditLog 审计日志
 type AuditLog struct {
-	ID        uint      `gorm:"primarykey" json:"id"`
-	CreatedAt time.Time `json:"created_at"`
-	UserID    uint      `gorm:"index" json:"user_id"`
-	User      *User     `gorm:"foreignKey:UserID" json:"user,omitempty"`
-	Action    string    `gorm:"index" json:"action"` // purchase, assign, install, upload
-	Resource  string    `json:"resource"`            // plugin:123, organization:456
-	Details   string    `gorm:"type:jsonb" json:"details"`
-	IPAddress string    `json:"ip_address"`
+	ID        uint            `gorm:"primarykey" json:"id"`
+	CreatedAt time.Time       `json:"created_at"`
+	UserID    uint            `gorm:"index" json:"user_id"`
+	User      *User           `gorm:"foreignKey:UserID" json:"user,omitempty"`
+	Action    string          `gorm:"index" json:"action"` // purchase, assign, install, upload
+	Resource  string          `json:"resource"`            // plugin:123, organization:456
+	Details   []byte          `gorm:"type:jsonb" json:"details"`
+	IPAddress string          `json:"ip_address"`
 }
 
 // CachedRemotePlugin 缓存的远程插件元数据
 type CachedRemotePlugin struct {
-	ID             uint      `gorm:"primarykey" json:"id"`
-	CreatedAt      time.Time `json:"created_at"`
-	UpdatedAt      time.Time `json:"updated_at"`
-	NPMPackageName string    `gorm:"uniqueIndex;not null" json:"npm_package_name"`
-	Metadata       string    `gorm:"type:jsonb" json:"metadata"`
-	LastSyncAt     time.Time `json:"last_sync_at"`
+	ID             uint           `gorm:"primarykey" json:"id"`
+	CreatedAt      time.Time      `json:"created_at"`
+	UpdatedAt      time.Time      `json:"updated_at"`
+	NPMPackageName string         `gorm:"uniqueIndex;not null" json:"npm_package_name"`
+	Metadata       []byte         `gorm:"type:jsonb" json:"metadata"`
+	LastSyncAt     time.Time      `json:"last_sync_at"`
 }
