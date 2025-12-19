@@ -60,11 +60,19 @@ func (h *PluginHandler) UploadPlugin(c *gin.Context) {
 	}
 
 	// 重新打开文件用于解析
-	f2, _ := file.Open()
+	f2, err := file.Open()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, Response{
+			Code:    500,
+			Message: "Failed to reopen file for parsing",
+		})
+		return
+	}
 	defer f2.Close()
 
 	// TODO: 从认证中间件获取 publisherID
-	publisherID := uint(1) // 临时硬编码
+	// 当前使用硬编码的 publisherID，需要确保数据库中存在 ID 为 1 的组织
+	publisherID := uint(1)
 
 	plugin, err := h.pluginService.UploadPlugin(c.Request.Context(), f2, fileData, publisherID)
 	if err != nil {

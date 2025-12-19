@@ -50,6 +50,22 @@ func main() {
 
 	log.Println("Database migration completed")
 
+	// 创建默认组织（如果不存在）
+	var defaultOrg models.Organization
+	if err := db.Where("name = ?", "Default Organization").First(&defaultOrg).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			defaultOrg = models.Organization{
+				Name:      "Default Organization",
+				OpenFGAID: "org_default_001",
+			}
+			if err := db.Create(&defaultOrg).Error; err != nil {
+				log.Printf("Warning: Failed to create default organization: %v", err)
+			} else {
+				log.Println("Default organization created")
+			}
+		}
+	}
+
 	// 初始化S3存储
 	s3Storage, err := storage.NewS3Storage(&cfg.S3)
 	if err != nil {
