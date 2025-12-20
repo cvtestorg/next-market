@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Suspense } from 'react'
 import SearchAndFilter from './SearchAndFilter'
 import PluginGrid from './PluginGrid'
+import { getApiUrl } from '../lib/api'
 
 interface Plugin {
   id: number
@@ -28,12 +29,13 @@ interface PluginListResponse {
 
 async function fetchPlugins(searchQuery?: string, filterType?: string): Promise<Plugin[]> {
   try {
-    let url = 'http://localhost:8000/api/v1/plugins'
+    const baseUrl = getApiUrl()
+    let url = `${baseUrl}/api/v1/plugins`
     
     if (searchQuery) {
-      url = `http://localhost:8000/api/v1/plugins/search?q=${encodeURIComponent(searchQuery)}`
+      url = `${baseUrl}/api/v1/plugins/search?q=${encodeURIComponent(searchQuery)}`
     } else if (filterType && filterType !== 'all') {
-      url = `http://localhost:8000/api/v1/plugins?type=${filterType}`
+      url = `${baseUrl}/api/v1/plugins?type=${filterType}`
     }
     
     const response = await fetch(url, {

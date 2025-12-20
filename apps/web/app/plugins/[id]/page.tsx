@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { getApiUrl } from '../../lib/api'
 
 interface PluginVersion {
   id: number
@@ -34,7 +35,8 @@ interface PluginResponse {
 
 async function fetchPluginDetails(id: string): Promise<Plugin | null> {
   try {
-    const response = await fetch(`http://localhost:8000/api/v1/plugins/${id}`, {
+    const baseUrl = getApiUrl()
+    const response = await fetch(`${baseUrl}/api/v1/plugins/${id}`, {
       cache: 'no-store'
     })
     
