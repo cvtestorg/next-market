@@ -1,6 +1,6 @@
 # Next Market
 
-Enterprise plugin distribution platform built with Next.js 14 and Go.
+Enterprise plugin distribution platform built with Next.js 16 and Go.
 
 ## 🎯 Overview
 
@@ -71,7 +71,7 @@ Frontend will start on http://localhost:3001
 ## 🏗️ Tech Stack
 
 - **Backend**: Go 1.21, Gin Framework, GORM, PostgreSQL
-- **Frontend**: Next.js 14, React 18, Tailwind CSS, TypeScript
+- **Frontend**: Next.js 16, React 18, Tailwind CSS, TypeScript
 - **Storage**: S3-compatible (MinIO)
 - **Authorization**: OpenFGA (ready for integration)
 - **Infrastructure**: Docker Compose
@@ -85,7 +85,7 @@ Frontend will start on http://localhost:3001
 │   │   ├── internal/ # Internal packages (handlers, services, models)
 │   │   └── pkg/      # Public packages (parser, storage)
 │   └── web/          # Next.js frontend
-│       ├── app/      # Next.js 14 App Router
+│       ├── app/      # Next.js 16 App Router
 │       └── components/
 ├── docker/           # Docker Compose configs
 ├── DEVELOPMENT.md    # Development setup guide
