@@ -1,8 +1,6 @@
-'use client'
-
-import { useEffect, useState } from 'react'
-import { useParams } from 'next/navigation'
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
+import { getApiUrl } from '../../lib/api'
 
 interface PluginVersion {
   id: number
@@ -11,6 +9,7 @@ interface PluginVersion {
   download_count: number
   file_size: number
   channel: string
+  readme_content?: string
 }
 
 interface Plugin {
@@ -28,66 +27,50 @@ interface Plugin {
   versions?: PluginVersion[]
 }
 
-export default function PluginDetailPage() {
-  const params = useParams()
-  const [plugin, setPlugin] = useState<Plugin | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const [selectedVersion, setSelectedVersion] = useState<PluginVersion | null>(null)
-  const [readme, setReadme] = useState<string>('')
+interface PluginResponse {
+  code: number
+  message: string
+  data: Plugin
+}
 
-  useEffect(() => {
-    if (params.id) {
-      fetchPluginDetails()
+async function fetchPluginDetails(id: string): Promise<Plugin | null> {
+  try {
+    const baseUrl = getApiUrl()
+    const response = await fetch(`${baseUrl}/api/v1/plugins/${id}`, {
+      cache: 'no-store'
+    })
+    
+    if (!response.ok) {
+      return null
     }
-  }, [params.id])
-
-  const fetchPluginDetails = async () => {
-    try {
-      setLoading(true)
-      const response = await fetch(`/api/v1/plugins/${params.id}`)
-      const data = await response.json()
-      
-      if (data.code === 200) {
-        setPlugin(data.data)
-        if (data.data.versions && data.data.versions.length > 0) {
-          const latest = data.data.versions[0]
-          setSelectedVersion(latest)
-          setReadme(latest.readme_content || 'No README available')
-        }
-      } else {
-        setError(data.message)
-      }
-    } catch (err) {
-      setError('Failed to fetch plugin details')
-      console.error(err)
-    } finally {
-      setLoading(false)
+    
+    const data: PluginResponse = await response.json()
+    
+    if (data.code === 200) {
+      return data.data
     }
+    
+    return null
+  } catch (error) {
+    console.error('Failed to fetch plugin details:', error)
+    return null
+  }
+}
+
+interface PluginDetailPageProps {
+  params: Promise<{ id: string }>
+}
+
+export default async function PluginDetailPage({ params }: PluginDetailPageProps) {
+  const { id } = await params
+  const plugin = await fetchPluginDetails(id)
+
+  if (!plugin) {
+    notFound()
   }
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 p-8 flex items-center justify-center">
-        <p className="text-gray-600">Loading plugin details...</p>
-      </div>
-    )
-  }
-
-  if (error || !plugin) {
-    return (
-      <div className="min-h-screen bg-gray-50 p-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-red-800">
-            {error || 'Plugin not found'}
-          </div>
-          <Link href="/plugins" className="mt-4 inline-block text-blue-600 hover:underline">
-            ← Back to plugins
-          </Link>
-        </div>
-      </div>
-    )
-  }
+  const latestVersion = plugin.versions?.[0]
+  const readme = latestVersion?.readme_content || 'No README available'
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">

@@ -4,7 +4,7 @@
 
 This is a monorepo containing:
 - `apps/backend` - Go (Gin) backend API
-- `apps/web` - Next.js 14 frontend
+- `apps/web` - Next.js 16 frontend
 - `docker` - Docker Compose configuration
 
 ## Prerequisites

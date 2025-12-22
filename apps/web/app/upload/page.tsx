@@ -3,12 +3,19 @@
 import { useState } from 'react'
 import Link from 'next/link'
 
+interface UploadedPluginData {
+  id: number
+  npm_package_name: string
+  latest_version: string
+  display_name?: string
+}
+
 export default function UploadPage() {
   const [file, setFile] = useState<File | null>(null)
   const [uploading, setUploading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [uploadedPlugin, setUploadedPlugin] = useState<any>(null)
+  const [uploadedPlugin, setUploadedPlugin] = useState<UploadedPluginData | null>(null)
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
