@@ -15,12 +15,12 @@ Next Market is a comprehensive plugin marketplace that allows developers to publ
 - 📦 **Version Management** - Automatic version lifecycle with configurable retention policies  
 - 🔍 **Search & Discovery** - Full-text search across plugins with keyword matching
 - 💾 **S3 Storage** - MinIO integration for plugin package storage
-- 🎨 **Modern UI** - Responsive design with Next.js 14 and Tailwind CSS
+- 🎨 **Modern UI** - Responsive design with Next.js 16 and Tailwind CSS
 - 🔌 **RESTful API** - Complete CRUD operations for plugin management
-- 🏗️ **Infrastructure** - Docker Compose setup with PostgreSQL, MinIO, and OpenFGA
+- 🏗️ **Infrastructure** - Docker Compose setup with PostgreSQL, MinIO, OpenFGA, and Keycloak
+- 🔐 **Authentication** - BetterAuth integration with Keycloak OIDC for user management
 
 ### Planned 🚧
-- 🔐 **Authentication** - BetterAuth integration for user management
 - 👥 **Enterprise Authorization** - Fine-grained access control with OpenFGA
 - 🛡️ **Security Scanning** - Automatic vulnerability detection with Trivy
 - 📊 **Analytics** - Developer dashboard with download metrics
@@ -39,7 +39,19 @@ cd docker
 docker compose up -d
 ```
 
-### 2. Start Backend
+This starts:
+- PostgreSQL (database)
+- MinIO (S3-compatible storage)
+- OpenFGA (authorization engine)
+- Keycloak (authentication server on http://localhost:8180)
+
+### 2. Configure Authentication (Optional)
+
+To enable Keycloak OIDC authentication, follow the [Authentication Setup Guide](./AUTHENTICATION.md).
+
+For quick start without authentication, skip this step and proceed to step 3.
+
+### 3. Start Backend
 ```bash
 go mod download
 go run cmd/server/main.go server start
@@ -47,7 +59,7 @@ go run cmd/server/main.go server start
 
 Backend will start on http://localhost:8000
 
-### 3. Start Frontend
+### 4. Start Frontend
 ```bash
 cd ui
 npm install
@@ -70,6 +82,7 @@ Frontend will start on http://localhost:3001
 
 - **Backend**: Go 1.21, Gin Framework, GORM, PostgreSQL
 - **Frontend**: Next.js 16, React 18, Tailwind CSS, TypeScript
+- **Authentication**: BetterAuth with Keycloak OIDC
 - **Storage**: S3-compatible (MinIO)
 - **Authorization**: OpenFGA (ready for integration)
 - **Infrastructure**: Docker Compose
@@ -163,6 +176,7 @@ A sample plugin (`awesome-markdown-editor`) has been tested end-to-end:
 
 ## 📚 Documentation
 
+- [AUTHENTICATION.md](./AUTHENTICATION.md) - BetterAuth + Keycloak setup guide
 - [DEVELOPMENT.md](./DEVELOPMENT.md) - Setup and development guide
 - [IMPLEMENTATION_SUMMARY.md](./IMPLEMENTATION_SUMMARY.md) - Technical details
 - [.github/copilot-instruction.md](./.github/copilot-instruction.md) - PRD & Specifications
