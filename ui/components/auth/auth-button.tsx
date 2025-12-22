@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { LogIn, LogOut, User } from "lucide-react";
-import Link from "next/link";
 
 export function AuthButton() {
   const { data: session, isPending } = useSession();
@@ -37,11 +36,9 @@ export function AuthButton() {
 
   if (!session) {
     return (
-      <Button asChild variant="default">
-        <Link href="/auth/signin">
-          <LogIn className="mr-2 h-4 w-4" />
-          Sign In
-        </Link>
+      <Button variant="default" disabled title="Authentication setup required - see AUTHENTICATION.md">
+        <LogIn className="mr-2 h-4 w-4" />
+        Sign In
       </Button>
     );
   }

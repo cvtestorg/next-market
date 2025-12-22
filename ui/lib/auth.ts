@@ -30,8 +30,10 @@ export const auth = betterAuth({
     enabled: true,
   },
   
-  // Note: For Keycloak OIDC integration, use the custom provider in keycloak-provider.ts
-  // This will be configured once the Keycloak setup is complete
+  // Keycloak OIDC integration is available via the custom provider in keycloak-provider.ts
+  // To enable it, configure KEYCLOAK_CLIENT_ID, KEYCLOAK_CLIENT_SECRET, and KEYCLOAK_ISSUER
+  // environment variables and add the keycloak provider to socialProviders configuration
+  // See AUTHENTICATION.md for complete setup instructions
 });
 
 export type Session = typeof auth.$Infer.Session;
