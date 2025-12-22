@@ -1,0 +1,14 @@
+<svg width="128" height="128" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366F1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8B5CF6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" fill="url(#grad)" rx="20"/>
+  <path d="M32 40 L64 24 L96 40 L96 64 L64 80 L32 64 Z" fill="white" opacity="0.9"/>
+  <path d="M40 48 L64 36 L88 48 L88 60 L64 72 L40 60 Z" fill="white" opacity="0.7"/>
+  <circle cx="64" cy="54" r="8" fill="white"/>
+  <text x="64" y="100" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">Enterprise</text>
+</svg>
+

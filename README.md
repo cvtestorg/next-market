@@ -41,17 +41,15 @@ docker compose up -d
 
 ### 2. Start Backend
 ```bash
-cd apps/backend
-cp .env.example .env
 go mod download
-go run cmd/server/main.go
+go run cmd/server/main.go server start
 ```
 
 Backend will start on http://localhost:8000
 
 ### 3. Start Frontend
 ```bash
-cd apps/web
+cd ui
 npm install
 npm run dev
 ```
@@ -79,17 +77,26 @@ Frontend will start on http://localhost:3001
 ## 📁 Project Structure
 
 ```
-├── apps/
-│   ├── backend/      # Go backend API
-│   │   ├── cmd/      # Application entrypoints
-│   │   ├── internal/ # Internal packages (handlers, services, models)
-│   │   └── pkg/      # Public packages (parser, storage)
-│   └── web/          # Next.js frontend
-│       ├── app/      # Next.js 16 App Router
-│       └── components/
+├── cmd/              # Application entrypoints
+│   ├── server/       # Server command entrypoint
+│   ├── server.go     # Server command implementation
+│   ├── migrate.go    # Migrate command
+│   └── root.go       # Root command
+├── internal/         # Internal packages (handlers, services, models, config)
+│   ├── config/       # Configuration management
+│   ├── handlers/     # HTTP handlers
+│   ├── models/       # Data models
+│   └── services/     # Business logic services
+├── pkg/              # Public packages (parser, storage)
+│   ├── parser/       # NPM package parser
+│   └── storage/      # Storage abstraction (S3)
+├── ui/               # Next.js frontend
+│   ├── app/          # Next.js 16 App Router
+│   └── components/   # React components
 ├── docker/           # Docker Compose configs
-├── DEVELOPMENT.md    # Development setup guide
-└── IMPLEMENTATION_SUMMARY.md # Detailed implementation notes
+├── examples/         # Example plugins
+├── go.mod            # Go module definition
+└── README.md         # Project documentation
 ```
 
 ## 🎮 Usage

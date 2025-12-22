@@ -1,25 +1,56 @@
-# Backend
-apps/backend/.env
-apps/backend/tmp/
+# Environment variables
+.env
+.env.local
+.env.*.local
+ui/.env.local
+ui/.env.development.local
+ui/.env.test.local
+ui/.env.production.local
 
-# Frontend
-apps/web/node_modules/
-apps/web/.next/
-apps/web/out/
-apps/web/.env.local
-apps/web/.env.development.local
-apps/web/.env.test.local
-apps/web/.env.production.local
-apps/web/tsconfig.tsbuildinfo
+# Backend (Go)
+main
+*.exe
+*.exe~
+tmp/
+vendor/
+*.test
+*.out
+*.prof
+
+# Frontend (Next.js)
+ui/node_modules/
+ui/.next/
+ui/out/
+ui/.vercel
+ui/tsconfig.tsbuildinfo
+ui/.turbo
+
+# Package managers
+node_modules/
+.pnpm-store/
+.yarn/
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
 
 # Logs
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 
 # OS
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 *.swp
 *.swo
 *~
@@ -28,18 +59,52 @@ yarn-error.log*
 .vscode/
 .idea/
 *.iml
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
 
 # Build artifacts
 dist/
 build/
 *.exe
 *.exe~
+*.dll
+*.so
+*.dylib
 
 # Test
 coverage/
-*.test
-*.out
+.nyc_output/
+*.lcov
+*.coverage
 
 # Temporary files
 tmp/
 temp/
+*.tmp
+*.temp
+*.bak
+*.backup
+*.cache
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+*.db-shm
+*.db-wal
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+
+# Plugin packages
+examples/**/*.tgz
+*.tgz
+
+# Misc
+.cache/
+.parcel-cache/
+.next/
+.vercel
+.turbo

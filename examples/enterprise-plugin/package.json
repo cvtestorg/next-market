@@ -1,0 +1,174 @@
+{
+  "name": "enterprise-analytics-plugin",
+  "version": "1.0.0",
+  "description": "企业级数据分析插件，提供高级数据统计、报表生成和实时监控功能",
+  "type": "enterprise",
+  "keywords": [
+    "enterprise",
+    "analytics",
+    "data",
+    "reporting",
+    "monitoring",
+    "business-intelligence"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Enterprise Solutions Inc.",
+  "license": "PROPRIETARY",
+  "icon": "assets/logo.svg",
+  "backendInstallDoc": "请按照以下步骤安装和配置企业级数据分析插件的后端组件：\n\n## 1. 系统要求\n- Node.js 18+ 或 Go 1.21+\n- PostgreSQL 12+ 或 MySQL 8+\n- Redis 6+（用于缓存和实时数据）\n- 至少 4GB 可用内存\n\n## 2. 数据库配置\n\n### PostgreSQL\n```sql\nCREATE DATABASE analytics_plugin;\nCREATE USER analytics_user WITH PASSWORD 'your-secure-password';\nGRANT ALL PRIVILEGES ON DATABASE analytics_plugin TO analytics_user;\n```\n\n### MySQL\n```sql\nCREATE DATABASE analytics_plugin CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;\nCREATE USER 'analytics_user'@'localhost' IDENTIFIED BY 'your-secure-password';\nGRANT ALL PRIVILEGES ON analytics_plugin.* TO 'analytics_user'@'localhost';\nFLUSH PRIVILEGES;\n```\n\n## 3. 环境变量配置\n\n创建 `.env` 文件：\n```env\nDB_HOST=localhost\nDB_PORT=5432\nDB_NAME=analytics_plugin\nDB_USER=analytics_user\nDB_PASSWORD=your-secure-password\nREDIS_HOST=localhost\nREDIS_PORT=6379\nAPI_KEY=your-api-key-here\nENCRYPTION_KEY=your-32-character-encryption-key\n```\n\n## 4. 安装依赖\n\n### Node.js 版本\n```bash\nnpm install\nnpm run migrate\nnpm run seed\n```\n\n### Go 版本\n```bash\ngo mod download\ngo run cmd/migrate/main.go\ngo run cmd/server/main.go\n```\n\n## 5. 启动服务\n\n```bash\n# 开发环境\nnpm run dev\n\n# 生产环境\nnpm start\n```\n\n## 6. 验证安装\n\n访问健康检查端点：\n```bash\ncurl http://localhost:8080/health\n```\n\n预期响应：\n```json\n{\n  \"status\": \"ok\",\n  \"database\": \"connected\",\n  \"redis\": \"connected\"\n}\n```\n\n## 7. 安全配置\n\n- 确保 API Key 已正确配置\n- 配置防火墙规则，仅允许授权 IP 访问\n- 启用 HTTPS/TLS 加密\n- 定期备份数据库\n\n## 8. 故障排查\n\n如遇到问题，请检查：\n- 数据库连接是否正常\n- Redis 服务是否运行\n- 环境变量是否正确设置\n- 日志文件中的错误信息\n\n## 支持\n\n如需技术支持，请联系：support@enterprise-solutions.com",
+  "nextMarketConfig": {
+    "type": "object",
+    "title": "企业级数据分析插件配置",
+    "description": "配置插件的核心参数和功能选项",
+    "required": [
+      "apiKey",
+      "databaseUrl",
+      "organizationId"
+    ],
+    "properties": {
+      "apiKey": {
+        "type": "string",
+        "title": "API 密钥",
+        "description": "用于访问插件 API 的密钥，从企业管理员处获取",
+        "minLength": 32,
+        "format": "password"
+      },
+      "organizationId": {
+        "type": "string",
+        "title": "组织 ID",
+        "description": "您的企业组织唯一标识符"
+      },
+      "databaseUrl": {
+        "type": "string",
+        "title": "数据库连接 URL",
+        "description": "PostgreSQL 或 MySQL 数据库连接字符串",
+        "format": "uri",
+        "default": "postgresql://user:password@localhost:5432/analytics"
+      },
+      "redisUrl": {
+        "type": "string",
+        "title": "Redis 连接 URL",
+        "description": "Redis 服务器连接地址（用于缓存和实时数据）",
+        "format": "uri",
+        "default": "redis://localhost:6379"
+      },
+      "enableRealTimeMonitoring": {
+        "type": "boolean",
+        "title": "启用实时监控",
+        "description": "是否启用实时数据监控和告警功能",
+        "default": true
+      },
+      "enableAdvancedReporting": {
+        "type": "boolean",
+        "title": "启用高级报表",
+        "description": "是否启用高级数据报表和分析功能",
+        "default": false
+      },
+      "dataRetentionDays": {
+        "type": "integer",
+        "title": "数据保留天数",
+        "description": "数据在数据库中保留的天数",
+        "minimum": 30,
+        "maximum": 3650,
+        "default": 365
+      },
+      "maxConcurrentQueries": {
+        "type": "integer",
+        "title": "最大并发查询数",
+        "description": "允许同时执行的最大查询数量",
+        "minimum": 1,
+        "maximum": 100,
+        "default": 10
+      },
+      "reportSchedule": {
+        "type": "object",
+        "title": "报表调度配置",
+        "description": "配置自动报表生成和发送",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "title": "启用自动报表",
+            "default": false
+          },
+          "frequency": {
+            "type": "string",
+            "title": "报表频率",
+            "enum": ["daily", "weekly", "monthly"],
+            "default": "weekly"
+          },
+          "recipients": {
+            "type": "array",
+            "title": "接收人邮箱",
+            "items": {
+              "type": "string",
+              "format": "email"
+            },
+            "minItems": 1
+          },
+          "format": {
+            "type": "string",
+            "title": "报表格式",
+            "enum": ["pdf", "excel", "csv"],
+            "default": "pdf"
+          }
+        }
+      },
+      "securitySettings": {
+        "type": "object",
+        "title": "安全设置",
+        "properties": {
+          "enableEncryption": {
+            "type": "boolean",
+            "title": "启用数据加密",
+            "default": true
+          },
+          "allowedIPs": {
+            "type": "array",
+            "title": "允许的 IP 地址",
+            "description": "仅允许这些 IP 地址访问插件 API",
+            "items": {
+              "type": "string",
+              "format": "ipv4"
+            }
+          },
+          "sessionTimeout": {
+            "type": "integer",
+            "title": "会话超时时间（分钟）",
+            "minimum": 5,
+            "maximum": 1440,
+            "default": 30
+          }
+        }
+      },
+      "performanceSettings": {
+        "type": "object",
+        "title": "性能设置",
+        "properties": {
+          "cacheEnabled": {
+            "type": "boolean",
+            "title": "启用缓存",
+            "default": true
+          },
+          "cacheTTL": {
+            "type": "integer",
+            "title": "缓存过期时间（秒）",
+            "minimum": 60,
+            "maximum": 86400,
+            "default": 3600
+          },
+          "queryTimeout": {
+            "type": "integer",
+            "title": "查询超时时间（秒）",
+            "minimum": 5,
+            "maximum": 300,
+            "default": 30
+          }
+        }
+      }
+    }
+  }
+}
+

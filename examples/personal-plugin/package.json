@@ -1,0 +1,44 @@
+{
+  "name": "personal-plugin",
+  "version": "1.0.0",
+  "description": "个人插件，提供个性化的功能和配置选项",
+  "type": "free",
+  "keywords": [
+    "personal",
+    "plugin",
+    "individual",
+    "custom",
+    "next-market"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Personal Developer",
+  "license": "MIT",
+  "icon": "assets/logo.svg",
+  "nextMarketConfig": {
+    "type": "object",
+    "properties": {
+      "apiKey": {
+        "type": "string",
+        "title": "API Key",
+        "description": "用于访问插件功能的 API 密钥"
+      },
+      "enableFeature": {
+        "type": "boolean",
+        "title": "启用功能",
+        "description": "是否启用高级功能",
+        "default": false
+      },
+      "maxRequests": {
+        "type": "number",
+        "title": "最大请求数",
+        "description": "每小时允许的最大请求数",
+        "default": 1000
+      }
+    },
+    "required": ["apiKey"]
+  }
+}
+
