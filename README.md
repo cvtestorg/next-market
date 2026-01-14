@@ -176,10 +176,23 @@ A sample plugin (`awesome-markdown-editor`) has been tested end-to-end:
 
 ## 📚 Documentation
 
+### Setup & Configuration
 - [AUTHENTICATION.md](./AUTHENTICATION.md) - BetterAuth + Keycloak setup guide
 - [DEVELOPMENT.md](./DEVELOPMENT.md) - Setup and development guide
+
+### Implementation
 - [IMPLEMENTATION_SUMMARY.md](./IMPLEMENTATION_SUMMARY.md) - Technical details
 - [.github/copilot-instruction.md](./.github/copilot-instruction.md) - PRD & Specifications
+
+### Feature Design Documents
+- [Implementation Plan](./docs/IMPLEMENTATION_PLAN.md) - 功能实现规划
+- [User Authentication Integration](./docs/DESIGN_AUTH_INTEGRATION.md) - 用户认证集成设计
+- [OpenFGA Authorization](./docs/DESIGN_OPENFGA_AUTHORIZATION.md) - 企业授权系统设计
+- [Plugin Purchase & Authorization](./docs/DESIGN_PLUGIN_PURCHASE.md) - 插件购买与授权流程设计
+- [Audit Logs](./docs/DESIGN_AUDIT_LOGS.md) - 审计日志设计
+- [Security Scanning](./docs/DESIGN_SECURITY_SCANNING.md) - 安全扫描设计
+- [Analytics & Dashboard](./docs/DESIGN_ANALYTICS.md) - 数据分析与仪表盘设计
+- [Hybrid Cloud Deployment](./docs/DESIGN_HYBRID_CLOUD.md) - 混合云/私有化部署设计
 
 ## 🤝 Contributing
 
